@@ -9,24 +9,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 
 @RestController
-@RequestMapping("/films")
-public class FilmController {
+@RequestMapping("/users")
+public class UserController {
 
   @PostMapping()
-  public Film createFilm(@Valid @RequestBody Film film) {
-    return film;
+  public User createUser(@Valid @RequestBody User user) {
+    return user;
   }
 
   @PutMapping()
-  public Film updateFilm(@Valid @RequestBody Film film) {
-    return film;
+  public User updateUser(@Valid @RequestBody User user) {
+    return user;
   }
 
   @GetMapping()
-  public Collection<Film> listFilm() {
+  public Collection<User> listUser() {
     return new ArrayList<>();
   }
 }
