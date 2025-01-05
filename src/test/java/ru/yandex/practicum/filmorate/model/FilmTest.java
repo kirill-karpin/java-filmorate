@@ -1,13 +1,15 @@
 package ru.yandex.practicum.filmorate.model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
-class FilmTest  extends AbstractValidateTest{
+class FilmTest extends AbstractValidateTest {
+
   @Test
   void invalidValuesTest() {
     Film film = new Film();

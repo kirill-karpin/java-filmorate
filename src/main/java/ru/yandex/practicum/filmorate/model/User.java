@@ -6,9 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.util.Date;
 import lombok.Data;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 
 /**
  * User.

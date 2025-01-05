@@ -4,7 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.time.Duration;
 
-public class MinimumDurationValidator   implements ConstraintValidator<MinimumDuration, Duration>{
+public class MinimumDurationValidator implements ConstraintValidator<MinimumDuration, Duration> {
 
   @Override
   public boolean isValid(Duration duration, ConstraintValidatorContext constraintValidatorContext) {

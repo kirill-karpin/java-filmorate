@@ -7,9 +7,12 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = MinimumDurationValidator.class)
 public @interface MinimumDuration {
-    String message() default "Duration must be greater {value}";
-    Class<?>[] groups() default {};
-    Class<?>[] payload() default {};
 
-    int value() default 0;
+  String message() default "Duration must be greater {value}";
+
+  Class<?>[] groups() default {};
+
+  Class<?>[] payload() default {};
+
+  int value() default 0;
 }

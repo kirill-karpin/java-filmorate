@@ -9,12 +9,15 @@ import java.util.Map;
 import java.util.Set;
 
 class AbstractValidateTest {
+
   public <T> Map<String, String> validate(T entity) {
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    Validator validator = factory.getValidator();
+    Validator validator;
+    try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+      validator = factory.getValidator();
+    }
     Set<ConstraintViolation<T>> violations = validator.validate(entity);
     Map<String, String> result = new HashMap<>();
-    for(ConstraintViolation<T> violation : violations) {
+    for (ConstraintViolation<T> violation : violations) {
       result.put(violation.getPropertyPath().toString(), violation.getMessage());
     }
     return result;

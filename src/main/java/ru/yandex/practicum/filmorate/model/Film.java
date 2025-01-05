@@ -31,6 +31,6 @@ public class Film {
   @MinimumDate
   private LocalDate releaseDate;
 
-  @MinimumDuration(value = 0)
+  @MinimumDuration()
   private Duration duration;
 }
