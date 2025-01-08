@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.model;
 
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -20,11 +19,9 @@ public class Film {
   private int id;
 
   @NotBlank
-  @NotNull(message = "Length of name should be less than 50")
   private String name;
 
   @NotBlank
-  @NotNull
   @Size(max = 200, message = "Length of description should be less than 200")
   private String description;
 

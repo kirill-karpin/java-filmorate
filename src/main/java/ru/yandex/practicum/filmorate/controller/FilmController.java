@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
 import java.util.Collection;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,26 +14,30 @@ import ru.yandex.practicum.filmorate.service.FilmRepository;
 
 @RestController
 @RequestMapping("/films")
+@Slf4j
 public class FilmController {
-  private final FilmRepository filmService;
 
-  public FilmController(FilmRepository filmService) {
-    this.filmService = filmService;
+  private final FilmRepository filmRepository;
+
+  public FilmController(FilmRepository filmRepository) {
+    this.filmRepository = filmRepository;
   }
 
   @PostMapping()
   public Film createFilm(@Valid @RequestBody Film film) {
-    int id = filmService.create(film);
-    return filmService.read(id);
+    log.info("Create film: " + film);
+    int id = filmRepository.create(film);
+    return filmRepository.read(id);
   }
 
   @PutMapping()
   public Film updateFilm(@Valid @RequestBody Film film) {
-    return filmService.update(film);
+    log.info("Update film: " + film);
+    return filmRepository.update(film);
   }
 
   @GetMapping()
   public Collection<Film> listFilm() {
-    return filmService.getAll();
+    return filmRepository.getAll();
   }
 }

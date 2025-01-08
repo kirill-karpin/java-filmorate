@@ -19,7 +19,7 @@ public class ExceptionApiHandler {
         .forEach(error -> result.put(error.getField(), error.getDefaultMessage()));
 
     return ResponseEntity
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .status(HttpStatus.BAD_REQUEST)
         .body(new ErrorMessage(result));
   }
 }
