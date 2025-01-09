@@ -22,7 +22,6 @@ public class User {
   @Pattern(regexp = "^\\S+$", message = "Login no contain space")
   private String login;
 
-  @NotBlank(message = "Name can't be blank")
   private String name;
   @Past
   private LocalDate birthday;
