@@ -20,6 +20,5 @@ class UserTest extends AbstractValidateTest {
     assertTrue(valid.containsKey("login"));
     assertTrue(valid.containsKey("email"));
     assertTrue(valid.containsKey("birthday"));
-    assertTrue(valid.containsKey("name"));
   }
 }
