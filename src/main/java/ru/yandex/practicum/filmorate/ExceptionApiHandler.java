@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.yandex.practicum.filmorate.exception.ErrorMessage;
 
 @RestControllerAdvice
 public class ExceptionApiHandler {
@@ -20,6 +21,17 @@ public class ExceptionApiHandler {
 
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
+        .body(new ErrorMessage(result));
+  }
+
+  @ExceptionHandler(RuntimeException.class)
+  public ResponseEntity<ErrorMessage> exception(
+      MethodArgumentNotValidException exception) {
+    Map<String, String> result = new HashMap<>();
+
+    result.put("message", exception.getMessage());
+    return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .body(new ErrorMessage(result));
   }
 }
