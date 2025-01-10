@@ -25,7 +25,7 @@ abstract class CrudRepository<T> {
   }
 
   public T update(T t) {
-    T e  = read(getEntityId(t));
+    T e = read(getEntityId(t));
     if (e == null) {
       throw new IllegalArgumentException("Entity not found");
     }
