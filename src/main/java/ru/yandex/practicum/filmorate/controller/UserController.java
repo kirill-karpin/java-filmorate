@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.controller;
 import jakarta.validation.Valid;
 import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,6 +39,25 @@ public class UserController {
   @GetMapping()
   public Collection<User> listUser() {
     return userRepository.getAll();
+  }
+
+  @PutMapping("/users/{id}/friends/{friendId}")
+  public void addFriend(@RequestBody User user) {
+    log.info("Add friend: " + user);
+  }
+
+  @DeleteMapping("/users/{id}/friends/{friendId}")
+  public void deleteFriend(@RequestBody User user) {
+    log.info("Delete friend: " + user);
+  }
+
+  @GetMapping("/users/{id}/friends")
+  public void getFriends(@RequestBody User user) {
+    log.info("Get friends: " + user);
+  }
+  @GetMapping(" /users/{id}/friends/common/{otherId}")
+  public void getCommonFriends(@RequestBody User user) {
+    log.info("Get common friends: " + user);
   }
 
 
