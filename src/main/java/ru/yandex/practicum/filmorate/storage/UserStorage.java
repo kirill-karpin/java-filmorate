@@ -1,5 +1,5 @@
 package ru.yandex.practicum.filmorate.storage;
 
-public class UserStorage {
+public interface UserStorage {
 
 }
