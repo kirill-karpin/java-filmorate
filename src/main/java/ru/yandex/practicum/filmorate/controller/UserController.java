@@ -39,4 +39,6 @@ public class UserController {
   public Collection<User> listUser() {
     return userRepository.getAll();
   }
+
+
 }
