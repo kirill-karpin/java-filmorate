@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.Set;
 import lombok.Data;
 
 /**
@@ -29,4 +30,15 @@ public class User {
   public @NotBlank(message = "Name can't be blank") String getName() {
     return (name != null ? name : login);
   }
+
+  private Set<Integer> friends;
+
+  public void addFriend(Integer id) {
+    friends.add(id);
+  }
+
+  public void removeFriend(Integer id) {
+    friends.remove(id);
+  }
+
 }
