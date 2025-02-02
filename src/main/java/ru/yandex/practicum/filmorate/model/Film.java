@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.annotaion.MinimumDate;
@@ -33,7 +34,7 @@ public class Film {
   @MinimumDuration()
   private Duration duration;
 
-  private Set<Integer> likes;
+  private Set<Integer> likes = new HashSet<>();
 
   @JsonProperty("duration")
   public long getDurationSeconds() {

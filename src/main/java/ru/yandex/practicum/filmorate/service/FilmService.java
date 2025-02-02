@@ -29,8 +29,12 @@ public class FilmService {
     return filmRepository.read(id);
   }
 
-  public Film update(@Valid Film film) {
-    return filmRepository.update(film);
+  public Film update(@Valid Film filmUpdate) {
+    Film film = filmRepository.read(filmUpdate.getId());
+    if (film == null) {
+      throw new NotFoundException("Film not found");
+    }
+    return filmRepository.update(filmUpdate);
   }
 
   public Collection<Film> getAll() {
@@ -65,5 +69,9 @@ public class FilmService {
     }
 
     film.removeLike(userId);
+  }
+
+  public Collection<Film> getPopularFilms(int count) {
+    return filmRepository.getPopularFilms(count);
   }
 }

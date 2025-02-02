@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
 
@@ -31,7 +32,7 @@ public class User {
     return (name != null ? name : login);
   }
 
-  private Set<Integer> friends;
+  private Set<Integer> friends = new HashSet<>();
 
   public void addFriend(Integer id) {
     friends.add(id);

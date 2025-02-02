@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.exception.ErrorMessage;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
@@ -37,13 +38,12 @@ public class ExceptionApiHandler {
   }
 
   @ExceptionHandler(NotFoundException.class)
-  public ResponseEntity<ErrorMessage> exception(
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ErrorMessage exception(
       NotFoundException exception) {
     Map<String, String> result = new HashMap<>();
 
     result.put("message", exception.getMessage());
-    return ResponseEntity
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(new ErrorMessage(result));
+    return new ErrorMessage(result);
   }
 }

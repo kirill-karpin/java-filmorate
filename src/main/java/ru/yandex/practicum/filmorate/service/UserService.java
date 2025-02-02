@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
+import jakarta.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -28,10 +29,8 @@ public class UserService {
       throw new NotFoundException("User with id " + userReceiverId + " not found");
     }
     userReceiver.addFriend(userSenderId);
-    userRepository.update(userReceiver);
 
     userSender.addFriend(userReceiverId);
-    userRepository.update(userSender);
     return true;
   }
 
@@ -41,8 +40,15 @@ public class UserService {
       throw new NotFoundException("User with id " + id + " not found");
     }
 
+    User friend = userRepository.read(friendId);
+    if (friend == null) {
+      throw new NotFoundException("User with id " + friendId + " not found");
+    }
+
     user.removeFriend(friendId);
+    friend.removeFriend(id);
     userRepository.update(user);
+    userRepository.update(friend);
   }
 
   public List<User> getUserFriends(int id) {
@@ -76,5 +82,25 @@ public class UserService {
     friendsId.retainAll(otherFriendsId);
 
     return getUsersListById(friendsId);
+  }
+
+  public User update(@Valid User userUpdate) {
+    User user = userRepository.read(userUpdate.getId());
+    if (user == null) {
+      throw new NotFoundException("Film not found");
+    }
+    return userRepository.update(userUpdate);
+  }
+
+  public Collection<User> getAll() {
+    return userRepository.getAll();
+  }
+
+  public int create(@Valid User user) {
+    return userRepository.create(user);
+  }
+
+  public User read(int id) {
+    return userRepository.read(id);
   }
 }

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.service.FilmRepository;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 @RestController
@@ -22,10 +22,8 @@ public class FilmController {
 
   private final FilmService filmService;
 
-  private final FilmRepository filmRepository;
 
-  public FilmController(FilmRepository filmRepository, FilmService filmService) {
-    this.filmRepository = filmRepository;
+  public FilmController(FilmService filmService) {
     this.filmService = filmService;
   }
 
@@ -47,22 +45,22 @@ public class FilmController {
     return filmService.getAll();
   }
 
-  @PutMapping("/films/{id}/like/{userId}")
+  @PutMapping("/{id}/like/{userId}")
   public void addLike(@PathVariable int id, @PathVariable int userId) {
     log.info("Like film: " + id + " " + userId);
     filmService.addLike(id, userId);
   }
 
-  @DeleteMapping("/films/{id}/like/{userId}")
+  @DeleteMapping("/{id}/like/{userId}")
   public void removeLike(@PathVariable int id, @PathVariable int userId) {
     log.info("Dislike film: " + id + " " + userId);
     filmService.removeLike(id, userId);
   }
 
-  @GetMapping("/films/popular?count={count}")
-  public Collection<Film> getPopularFilms(@PathVariable int count) {
+  @GetMapping("/popular")
+  public Collection<Film> getPopularFilms(@RequestParam int count) {
     log.info("Get popular films: " + count);
-    return filmRepository.getPopularFilms(count);
+    return filmService.getPopularFilms(count);
   }
 
 
