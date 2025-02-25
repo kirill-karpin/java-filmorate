@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 public class User {
 
-  private int id;
+  private long id;
   @NotBlank
   @Email
   private String email;
@@ -31,15 +31,4 @@ public class User {
   public @NotBlank(message = "Name can't be blank") String getName() {
     return (name != null ? name : login);
   }
-
-  private Set<Integer> friends = new HashSet<>();
-
-  public void addFriend(Integer id) {
-    friends.add(id);
-  }
-
-  public void removeFriend(Integer id) {
-    friends.remove(id);
-  }
-
 }

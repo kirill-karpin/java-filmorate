@@ -19,7 +19,7 @@ import ru.yandex.practicum.filmorate.annotaion.MinimumDuration;
 @Data
 public class Film {
 
-  private int id;
+  private long id;
 
   @NotBlank
   private String name;

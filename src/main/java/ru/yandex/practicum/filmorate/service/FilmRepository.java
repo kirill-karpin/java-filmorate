@@ -1,27 +1,54 @@
 package ru.yandex.practicum.filmorate.service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
 
 @Component
-public class FilmRepository extends CrudRepository<Film> {
+public class FilmRepository extends BaseRepository<Film> {
 
-  @Override
-  public int getEntityId(Film film) {
-    return film.getId();
-  }
+  private static final String INSERT_QUERY =
+      "insert into films(name, description, duration, release_date)" + " values (?, ?, ?, ?)";
+  private static final String FIND_BY_ID_QUERY = "SELECT * FROM films WHERE id = ?";
+  private static final String UPDATE_QUERY = "UPDATE films SET name = ?, description = ?, duration = ?, release_date = ? WHERE id = ?";
+  private static final String FIND_ALL_QUERY = "SELECT * FROM films";
+  private static final String DELETE_QUERY = "DELETE FROM films WHERE id = ?";
 
-  @Override
-  public int setEntityId(int id, Film film) {
-    film.setId(id);
-    return id;
+  public FilmRepository(JdbcTemplate jdbc, RowMapper<Film> mapper) {
+    super(jdbc, mapper, Film.class);
   }
 
   public Collection<Film> getPopularFilms(int count) {
-    return getAll().stream().sorted((f1, f2) -> f2.likesCount() - f1.likesCount())
-        .limit(count)
+    return getAll().stream().sorted((f1, f2) -> f2.likesCount() - f1.likesCount()).limit(count)
         .collect(Collectors.toList());
+  }
+
+  public long create(Film film) {
+    return insert(INSERT_QUERY, film.getName(), film.getDescription(), film.getDuration(),
+        film.getReleaseDate());
+  }
+
+  public Optional<Film> update(Film film) {
+    long id = insert(UPDATE_QUERY, film.getName(), film.getDescription(), film.getDuration(),
+        film.getReleaseDate(), film.getId());
+    return findOne(FIND_BY_ID_QUERY, id);
+  }
+
+  public Optional<Film> read(long id) {
+    return findOne(FIND_BY_ID_QUERY, id);
+  }
+
+  public Film delete(long id) {
+    super.delete(DELETE_QUERY, id);
+    return null;
+  }
+
+  public List<Film> getAll() {
+    return findMany(FIND_ALL_QUERY);
   }
 }

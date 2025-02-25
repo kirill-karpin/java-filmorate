@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.controller;
 import jakarta.validation.Valid;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,13 +28,13 @@ public class UserController {
   }
 
   @PostMapping()
-  public User createUser(@Valid @RequestBody User user) {
+  public Optional<User> createUser(@Valid @RequestBody User user) {
     log.info("Create user: " + user);
     return userService.read(userService.create(user));
   }
 
   @PutMapping()
-  public User updateUser(@Valid @RequestBody User user) {
+  public Optional<User> updateUser(@Valid @RequestBody User user) {
     log.info("Update user: " + user);
     return userService.update(user);
   }
@@ -56,13 +57,13 @@ public class UserController {
   }
 
   @GetMapping("/{id}/friends")
-  public List<User> getUseFriends(@PathVariable int id) {
+  public List<Optional<User>> getUseFriends(@PathVariable int id) {
     log.info("Get friends: " + id);
     return userService.getUserFriends(id);
   }
 
   @GetMapping("/{id}/friends/common/{otherId}")
-  public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
+  public List<Optional<User>> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
     log.info("Get common friends: " + id + " " + otherId);
     return userService.getCommonFriends(id, otherId);
   }

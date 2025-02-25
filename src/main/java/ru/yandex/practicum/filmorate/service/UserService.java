@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -20,74 +21,66 @@ public class UserService {
   }
 
   public boolean addFriendToUser(Integer userSenderId, Integer userReceiverId) {
-    User userSender = userRepository.read(userSenderId);
-    if (userSender == null) {
+    Optional<User> userSender = userRepository.read(userSenderId);
+    if (userSender.isEmpty()) {
       throw new NotFoundException("User with id " + userSenderId + " not found");
     }
-    User userReceiver = userRepository.read(userReceiverId);
-    if (userReceiver == null) {
+    Optional<User> userReceiver = userRepository.read(userReceiverId);
+    if (userReceiver.isEmpty()) {
       throw new NotFoundException("User with id " + userReceiverId + " not found");
     }
-    userReceiver.addFriend(userSenderId);
-
-    userSender.addFriend(userReceiverId);
     return true;
   }
 
   public void removeFriendFromUser(int id, int friendId) {
-    User user = userRepository.read(id);
-    if (user == null) {
+    Optional<User> user = userRepository.read(id);
+    if (user.isEmpty()) {
       throw new NotFoundException("User with id " + id + " not found");
     }
 
-    User friend = userRepository.read(friendId);
-    if (friend == null) {
+    Optional<User> friend = userRepository.read(friendId);
+    if (friend.isEmpty()) {
       throw new NotFoundException("User with id " + friendId + " not found");
     }
 
-    user.removeFriend(friendId);
-    friend.removeFriend(id);
-    userRepository.update(user);
-    userRepository.update(friend);
   }
 
-  public List<User> getUserFriends(int id) {
-    User user = userRepository.read(id);
-    if (user == null) {
+  public List<Optional<User>> getUserFriends(int id) {
+    Optional<User> user = userRepository.read(id);
+    if (user.isEmpty()) {
       throw new NotFoundException("User with id " + id + " not found");
     }
-    Set<Integer> friendsId = user.getFriends();
-    return getUsersListById(friendsId);
+    return null;
   }
 
-  public List<User> getUsersListById(Collection<Integer> usersId) {
-    List<User> result = usersId.stream()
+  public List<Optional<User>> getUsersListById(Collection<Integer> usersId) {
+    List<Optional<User>> result = usersId.stream()
         .map(userRepository::read)
         .filter(Objects::nonNull)
         .collect(Collectors.toList());
     return result;
   }
 
-  public List<User> getCommonFriends(int id, int otherId) {
-    User user = userRepository.read(id);
-    if (user == null) {
+  public List<Optional<User>> getCommonFriends(int id, int otherId) {
+    Optional<User> user = userRepository.read(id);
+    if (user.isEmpty()) {
       throw new NotFoundException("User with id " + id + " not found");
     }
-    User otherUser = userRepository.read(otherId);
-    if (otherUser == null) {
+    Optional<User> otherUser = userRepository.read(otherId);
+    if (otherUser.isEmpty()) {
       throw new NotFoundException("User with id " + otherId + " not found");
     }
-    Set<Integer> friendsId = user.getFriends();
-    Set<Integer> otherFriendsId = otherUser.getFriends();
-    friendsId.retainAll(otherFriendsId);
+    //Set<Integer> friendsId = user.get().getFriends();
+    //Set<Integer> otherFriendsId = otherUser.get().getFriends();
+    //friendsId.retainAll(otherFriendsId);
 
-    return getUsersListById(friendsId);
+    return null;
   }
 
-  public User update(@Valid User userUpdate) {
-    User user = userRepository.read(userUpdate.getId());
-    if (user == null) {
-      throw new NotFoundException("Film not found");
+  public Optional<User> update(@Valid User userUpdate) {
+    Optional<User> user = userRepository.read(userUpdate.getId());
+    if (user.isEmpty()) {
+      throw new NotFoundException("User not found");
     }
     return userRepository.update(userUpdate);
   }
@@ -96,11 +89,11 @@ public class UserService {
     return userRepository.getAll();
   }
 
-  public int create(@Valid User user) {
+  public long create(@Valid User user) {
     return userRepository.create(user);
   }
 
-  public User read(int id) {
+  public Optional<User> read(long id) {
     return userRepository.read(id);
   }
 }
