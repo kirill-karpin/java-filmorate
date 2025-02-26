@@ -19,17 +19,16 @@ import ru.yandex.practicum.filmorate.model.film.Mpa;
 @Service
 public class FilmService {
 
-  final
-  private FilmRepository filmRepository;
+
+  private final FilmRepository filmRepository;
   private final UserRepository userRepository;
   private final GenreRepository genreRepository;
   private final MpaRepository mpaRepository;
   private final LikeRepository likeRepository;
 
 
-  public FilmService(FilmRepository filmRepository,
-      UserRepository userRepository, MpaRepository mpaRepository, LikeRepository likeRepository,
-      GenreRepository genreRepository) {
+  public FilmService(FilmRepository filmRepository, UserRepository userRepository,
+      MpaRepository mpaRepository, LikeRepository likeRepository, GenreRepository genreRepository) {
     this.filmRepository = filmRepository;
     this.userRepository = userRepository;
     this.mpaRepository = mpaRepository;
