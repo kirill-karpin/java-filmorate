@@ -44,15 +44,17 @@ public class UserService {
     if (friend.isEmpty()) {
       throw new NotFoundException("User with id " + friendId + " not found");
     }
-
+    userRepository.removeFriend(id, friendId);
+    userRepository.removeFriend(friendId, id);
   }
 
-  public List<Optional<User>> getUserFriends(int id) {
+  public List<User> getUserFriends(long id) {
     Optional<User> user = userRepository.read(id);
     if (user.isEmpty()) {
       throw new NotFoundException("User with id " + id + " not found");
     }
-    return null;
+
+    return userRepository.getFriends(id);
   }
 
   public List<Optional<User>> getUsersListById(Collection<Integer> usersId) {
@@ -63,7 +65,7 @@ public class UserService {
     return result;
   }
 
-  public List<Optional<User>> getCommonFriends(int id, int otherId) {
+  public List<User> getCommonFriends(int id, int otherId) {
     Optional<User> user = userRepository.read(id);
     if (user.isEmpty()) {
       throw new NotFoundException("User with id " + id + " not found");
@@ -72,11 +74,11 @@ public class UserService {
     if (otherUser.isEmpty()) {
       throw new NotFoundException("User with id " + otherId + " not found");
     }
-    //Set<Integer> friendsId = user.get().getFriends();
-    //Set<Integer> otherFriendsId = otherUser.get().getFriends();
-    //friendsId.retainAll(otherFriendsId);
+    List<User> friendsId = getUserFriends(user.get().getId());
+    List<User> otherFriendsId = getUserFriends(otherUser.get().getId());
+    friendsId.retainAll(otherFriendsId);
 
-    return null;
+    return friendsId;
   }
 
   public Optional<User> update(@Valid User userUpdate) {

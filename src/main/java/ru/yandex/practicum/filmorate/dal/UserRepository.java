@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.dal;
 
 import jakarta.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,6 +18,7 @@ public class UserRepository extends BaseRepository<User> {
   private static final String UPDATE_QUERY = "UPDATE users SET name = ?, email = ?, login = ?, birthday = ? WHERE id = ?";
   private static final String FIND_ALL_QUERY = "SELECT * FROM users";
   private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
+  private static final String FIND_FRIENDS_QUERY = "SELECT * FROM users WHERE id in (select f.friend_id from friends f where f.user_id = ?)";
 
   public UserRepository(JdbcTemplate jdbc, RowMapper<User> mapper) {
     super(jdbc, mapper, User.class);
@@ -48,5 +50,13 @@ public class UserRepository extends BaseRepository<User> {
 
     jdbc.update("INSERT INTO friends(friend_id, user_id) VALUES (?, ?)",
         userSenderId, userReceiverId);
+  }
+
+  public void removeFriend(int id, int friendId) {
+    jdbc.update("DELETE FROM friends WHERE user_id = ? AND friend_id = ?", id, friendId);
+  }
+
+  public List<User> getFriends(long id) {
+    return findMany(FIND_FRIENDS_QUERY, id);
   }
 }
