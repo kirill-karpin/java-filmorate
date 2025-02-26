@@ -29,6 +29,8 @@ public class UserService {
     if (userReceiver.isEmpty()) {
       throw new NotFoundException("User with id " + userReceiverId + " not found");
     }
+
+    userRepository.addFriend(userSenderId, userReceiverId);
     return true;
   }
 

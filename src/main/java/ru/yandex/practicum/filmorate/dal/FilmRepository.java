@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.dal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -18,14 +17,15 @@ public class FilmRepository extends BaseRepository<Film> {
   private static final String UPDATE_QUERY = "UPDATE films SET name = ?, description = ?, duration = ?, release_date = ? WHERE id = ?";
   private static final String FIND_ALL_QUERY = "SELECT f.*, m.* FROM films f JOIN film_mpa fm ON fm.film_id =f.id JOIN mpa m ON fm.mpa_id = m.id";
   private static final String DELETE_QUERY = "DELETE FROM films WHERE id = ?";
+  private static final String MOST_POPULAR_FILM_QUERY = "SELECT f.*, fm.mpa_id FROM films f JOIN film_mpa fm ON fm.film_id = f.id JOIN mpa m ON fm.mpa_id = m.id left join (select f.film_id, count(*) as \"total\" from FILM_LIKES f group by f.film_id) cnt on cnt.film_id = f.id order by cnt.\"total\" desc limit ?\n";
+
 
   public FilmRepository(JdbcTemplate jdbc, RowMapper<Film> mapper) {
     super(jdbc, mapper, Film.class);
   }
 
   public Collection<Film> getPopularFilms(int count) {
-    return getAll().stream().sorted((f1, f2) -> f2.likesCount() - f1.likesCount()).limit(count)
-        .collect(Collectors.toList());
+    return getMostPopular(count);
   }
 
   public long create(Film film) {
@@ -50,5 +50,10 @@ public class FilmRepository extends BaseRepository<Film> {
 
   public List<Film> getAll() {
     return findMany(FIND_ALL_QUERY);
+  }
+
+  public List<Film> getMostPopular(int count) {
+    var result = findMany(MOST_POPULAR_FILM_QUERY, count);
+    return result;
   }
 }

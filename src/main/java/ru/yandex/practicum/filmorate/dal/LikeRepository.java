@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.dal;
 
+import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ public class LikeRepository extends BaseRepository<Like> {
       "insert into film_likes(user_id, film_id)" + " values (?, ?)";
   private static final String REMOVE_LIKE =
       "delete from film_likes where user_id = ? and film_id = ?";
+
 
   public LikeRepository(JdbcTemplate jdbc, RowMapper<Like> mapper) {
     super(jdbc, mapper, Like.class);

@@ -41,4 +41,12 @@ public class UserRepository extends BaseRepository<User> {
     return insert(INSERT_QUERY, user.getName(), user.getLogin(), user.getEmail(),
         user.getBirthday());
   }
+
+  public void addFriend(Integer userSenderId, Integer userReceiverId) {
+    jdbc.update("INSERT INTO friends(user_id, friend_id) VALUES (?, ?)",
+        userSenderId, userReceiverId);
+
+    jdbc.update("INSERT INTO friends(friend_id, user_id) VALUES (?, ?)",
+        userSenderId, userReceiverId);
+  }
 }

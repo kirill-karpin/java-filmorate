@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.dal;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -30,6 +31,12 @@ public class BaseRepository<T> {
   protected List<T> findMany(String query, Object... params) {
     return jdbc.query(query, mapper, params);
   }
+
+  protected List<T> findList(String query, Object... params) {
+    List<Map<String, Object>> rows = jdbc.queryForList(query, params);
+    return (List<T>) rows;
+  }
+
 
   public boolean delete(String query, long id) {
     int rowsDeleted = jdbc.update(query, id);

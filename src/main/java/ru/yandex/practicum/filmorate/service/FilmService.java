@@ -44,12 +44,16 @@ public class FilmService {
     Mpa mpa = film.getMpa();
     if (mpaRepository.findById(mpa.getId()).isPresent()) {
       mpaRepository.addFilmMpa(id, mpa.getId());
+    } else {
+      throw new NotFoundException("Mpa not found");
     }
 
     List<Genre> genres = film.getGenres();
     genres.forEach(genre -> {
       if (genreRepository.findById(genre.getId()).isPresent()) {
         genreRepository.addFilmGenre(id, genre.getId());
+      } else {
+        throw new NotFoundException("Genre not found");
       }
     });
 
@@ -66,9 +70,7 @@ public class FilmService {
       film.get().setMpa(mpaRepository.findById(film.get().getMpaId()).get());
     }
 
-    if (film.get().getGenres() != null) {
-
-    }
+    film.get().setGenres(genreRepository.findGenresByFilmId(film.get().getId()));
 
     return film;
   }
