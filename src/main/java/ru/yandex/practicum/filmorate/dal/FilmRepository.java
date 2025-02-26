@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.dal;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,16 +7,16 @@ import java.util.stream.Collectors;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.film.Film;
 
 @Component
 public class FilmRepository extends BaseRepository<Film> {
 
   private static final String INSERT_QUERY =
       "insert into films(name, description, duration, release_date)" + " values (?, ?, ?, ?)";
-  private static final String FIND_BY_ID_QUERY = "SELECT * FROM films WHERE id = ?";
+  private static final String FIND_BY_ID_QUERY = "SELECT f.*, fm.mpa_id as mpa_id FROM films f JOIN film_mpa fm ON fm.film_id =f.id WHERE f.id = ?";
   private static final String UPDATE_QUERY = "UPDATE films SET name = ?, description = ?, duration = ?, release_date = ? WHERE id = ?";
-  private static final String FIND_ALL_QUERY = "SELECT * FROM films";
+  private static final String FIND_ALL_QUERY = "SELECT f.*, m.* FROM films f JOIN film_mpa fm ON fm.film_id =f.id JOIN mpa m ON fm.mpa_id = m.id";
   private static final String DELETE_QUERY = "DELETE FROM films WHERE id = ?";
 
   public FilmRepository(JdbcTemplate jdbc, RowMapper<Film> mapper) {

@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.filmorate.model.film.Film;
 
 class FilmTest extends AbstractValidateTest {
 

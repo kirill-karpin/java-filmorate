@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.dal;
 
 import jakarta.validation.Valid;
 import java.util.Collection;

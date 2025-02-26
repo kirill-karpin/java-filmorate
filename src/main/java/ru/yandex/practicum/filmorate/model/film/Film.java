@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.model.film;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.annotaion.MinimumDate;
@@ -35,6 +37,9 @@ public class Film {
   private Duration duration;
 
   private Set<Integer> likes = new HashSet<>();
+  private Mpa mpa;
+  private Long mpaId;
+  private List<Genre> genres = new ArrayList<>();
 
   @JsonProperty("duration")
   public long getDurationSeconds() {

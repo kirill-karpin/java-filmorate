@@ -1,38 +1,71 @@
-create table IF NOT EXISTS films
+create table if not exists films
 (
-    id           long         not null AUTO_INCREMENT,
+    id           long         not null auto_increment,
     name         varchar(100) not null,
-    description  TEXT,
-    release_date DATE,
+    description  text,
+    release_date date,
     duration     int,
-    constraint FILMS_PK
-        primary key (ID)
+    constraint films_pk
+        primary key (id)
 );
 
 
-create table IF NOT EXISTS users
+create table if not exists users
 (
-    id       long         not null AUTO_INCREMENT,
+    id       long         not null auto_increment,
     email    varchar(512) not null,
     login    varchar(512),
     name     varchar(512),
-    birthday DATE,
-    constraint USERS_PK
-        primary key (ID)
+    birthday date,
+    constraint users_pk
+        primary key (id)
 );
 
-create table IF NOT EXISTS film_likes
+create table if not exists film_likes
 (
-    id      long not null AUTO_INCREMENT,
+    id      long not null auto_increment,
     film_id long not null,
     user_id long not null
 );
 
-create table IF NOT EXISTS friends
+create table if not exists friends
 (
-    id        long not null AUTO_INCREMENT,
+    id        long not null auto_increment,
     user_id   long not null,
     friend_id long not null
 );
 
+create table if not exists mpa
+(
+    id          long auto_increment,
+    name        varchar(512) not null,
+    description text,
+    constraint mpa_pk
+        primary key (id)
+);
+
+
+
+create table if not exists film_mpa
+(
+    id      long not null auto_increment,
+    film_id long not null,
+    mpa_id  long not null
+);
+
+create table if not exists genres
+(
+    id   long auto_increment,
+    name varchar(512) not null,
+    constraint genres_pk
+        primary key (id)
+);
+
+
+create table if not exists film_genre
+(
+    id       long not null auto_increment,
+    film_id  long not null,
+    genre_id long not null
+);
 
