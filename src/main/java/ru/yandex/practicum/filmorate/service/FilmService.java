@@ -127,4 +127,17 @@ public class FilmService {
   public Optional<Genre> getGenreById(long id) {
     return genreRepository.findById(id);
   }
+
+  public List<Mpa> getAllMpa() {
+    return mpaRepository.getAll();
+  }
+
+  public Optional<Mpa> getMpaById(long id) {
+     Optional<Mpa> result =  mpaRepository.findById(id);
+     if (result.isEmpty()) {
+       throw new NotFoundException("Mpa not found");
+     }
+     return result;
+
+  }
 }
