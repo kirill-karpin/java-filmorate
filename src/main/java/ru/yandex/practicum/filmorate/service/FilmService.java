@@ -23,8 +23,8 @@ public class FilmService {
   private FilmRepository filmRepository;
   private final UserRepository userRepository;
   private final GenreRepository genreRepository;
-  private MpaRepository mpaRepository;
-  private LikeRepository likeRepository;
+  private final MpaRepository mpaRepository;
+  private final LikeRepository likeRepository;
 
 
   public FilmService(FilmRepository filmRepository,
