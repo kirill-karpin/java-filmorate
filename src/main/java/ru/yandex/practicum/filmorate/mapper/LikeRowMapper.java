@@ -15,4 +15,4 @@ public class LikeRowMapper implements RowMapper<Like> {
     like.setId(resultSet.getLong("id"));
     return like;
   }
-} 
+}

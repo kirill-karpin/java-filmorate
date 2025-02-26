@@ -16,4 +16,4 @@ public class GenreRowMapper implements RowMapper<Genre> {
     genre.setName(resultSet.getString("name"));
     return genre;
   }
-} 
+}

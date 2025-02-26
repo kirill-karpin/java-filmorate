@@ -19,4 +19,4 @@ public class UserRowMapper implements RowMapper<User> {
     user.setBirthday(resultSet.getDate("birthday").toLocalDate());
     return user;
   }
-} 
+}
