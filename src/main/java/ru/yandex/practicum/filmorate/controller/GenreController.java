@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.film.Genre;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
@@ -28,6 +29,10 @@ public class GenreController {
 
   @GetMapping("/{id}")
   public Optional<Genre> getGenresById(@PathVariable long id) {
-    return filmService.getGenreById(id);
+    Optional<Genre> genre = filmService.getGenreById(id);
+    if (genre.isEmpty()) {
+      throw new NotFoundException("Genre not found");
+    }
+    return genre;
   }
 }

@@ -15,7 +15,7 @@ public class FilmRepository extends BaseRepository<Film> {
       "insert into films(name, description, duration, release_date)" + " values (?, ?, ?, ?)";
   private static final String FIND_BY_ID_QUERY = "SELECT f.*, fm.mpa_id as mpa_id FROM films f JOIN film_mpa fm ON fm.film_id =f.id WHERE f.id = ?";
   private static final String UPDATE_QUERY = "UPDATE films SET name = ?, description = ?, duration = ?, release_date = ? WHERE id = ?";
-  private static final String FIND_ALL_QUERY = "SELECT f.*, m.* FROM films f JOIN film_mpa fm ON fm.film_id =f.id JOIN mpa m ON fm.mpa_id = m.id";
+  private static final String FIND_ALL_QUERY = "SELECT f.*, m.*, fm.mpa_id as mpa_id FROM films f JOIN film_mpa fm ON fm.film_id =f.id JOIN mpa m ON fm.mpa_id = m.id";
   private static final String DELETE_QUERY = "DELETE FROM films WHERE id = ?";
   private static final String MOST_POPULAR_FILM_QUERY = "SELECT f.*, fm.mpa_id FROM films f JOIN film_mpa fm ON fm.film_id = f.id JOIN mpa m ON fm.mpa_id = m.id left join (select f.film_id, count(*) as \"total\" from FILM_LIKES f group by f.film_id) cnt on cnt.film_id = f.id order by cnt.\"total\" desc limit ?\n";
 
@@ -53,7 +53,6 @@ public class FilmRepository extends BaseRepository<Film> {
   }
 
   public List<Film> getMostPopular(int count) {
-    var result = findMany(MOST_POPULAR_FILM_QUERY, count);
-    return result;
+    return findMany(MOST_POPULAR_FILM_QUERY, count);
   }
 }

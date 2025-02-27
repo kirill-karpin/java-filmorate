@@ -29,7 +29,7 @@ public class FilmController {
   }
 
   @GetMapping("/{id}")
-  public Optional<Film> createFilm(@Valid @PathVariable int id) {
+  public Optional<Film> readFilm(@Valid @PathVariable int id) {
     log.info("Get film: " + id);
     var result = filmService.read(id);
     return result;
@@ -39,8 +39,7 @@ public class FilmController {
   public Optional<Film> createFilm(@Valid @RequestBody Film film) {
     log.info("Create film: " + film);
     long id = filmService.create(film);
-    var result = filmService.read(id);
-    return result;
+    return filmService.read(id);
   }
 
   @PutMapping()

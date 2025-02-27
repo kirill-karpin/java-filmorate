@@ -18,11 +18,11 @@ public class LikeRepository extends BaseRepository<Like> {
     super(jdbc, mapper, Like.class);
   }
 
-  public void addLike(int userId, int filmId) {
+  public void addLike(int filmId, int userId) {
     jdbc.update(ADD_LIKE, userId, filmId);
   }
 
-  public void removeLike(int userId, int filmId) {
+  public void removeLike(int filmId, int userId) {
     jdbc.update(REMOVE_LIKE, userId, filmId);
   }
 }
