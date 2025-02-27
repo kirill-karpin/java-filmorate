@@ -45,7 +45,6 @@ public class UserService {
       throw new NotFoundException("User with id " + friendId + " not found");
     }
     userRepository.removeFriend(id, friendId);
-    userRepository.removeFriend(friendId, id);
   }
 
   public List<User> getUserFriends(long id) {

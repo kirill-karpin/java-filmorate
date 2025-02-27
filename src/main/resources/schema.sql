@@ -32,7 +32,8 @@ create table if not exists friends
 (
     id        long not null auto_increment,
     user_id   long not null,
-    friend_id long not null
+    friend_id long not null,
+    confirmed boolean not null default false
 );
 
 create table if not exists mpa

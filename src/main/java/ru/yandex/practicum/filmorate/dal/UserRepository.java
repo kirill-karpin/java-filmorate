@@ -47,9 +47,6 @@ public class UserRepository extends BaseRepository<User> {
   public void addFriend(Integer userSenderId, Integer userReceiverId) {
     jdbc.update("INSERT INTO friends(user_id, friend_id) VALUES (?, ?)",
         userSenderId, userReceiverId);
-
-    jdbc.update("INSERT INTO friends(friend_id, user_id) VALUES (?, ?)",
-        userSenderId, userReceiverId);
   }
 
   public void removeFriend(int id, int friendId) {
