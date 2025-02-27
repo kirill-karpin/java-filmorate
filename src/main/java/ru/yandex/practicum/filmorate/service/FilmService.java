@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import jakarta.validation.Valid;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -65,7 +65,7 @@ public class FilmService {
     }
     List<Genre> genres = genreRepository.findGenresByFilmId(film.get().getId());
 
-    film.get().setGenres(new HashSet<>(genres));
+    film.get().setGenres(new LinkedHashSet<>(genres));
 
     return film;
   }
