@@ -29,13 +29,13 @@ public class UserController {
   @PostMapping()
   public User createUser(@Valid @RequestBody User user) {
     log.info("Create user: " + user);
-    return userService.read(userService.create(user));
+    return userService.read(userService.create(user)).get();
   }
 
   @PutMapping()
   public User updateUser(@Valid @RequestBody User user) {
     log.info("Update user: " + user);
-    return userService.update(user);
+    return userService.update(user).get();
   }
 
   @GetMapping("")

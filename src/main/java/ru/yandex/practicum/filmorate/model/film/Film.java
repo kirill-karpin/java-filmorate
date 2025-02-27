@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.model.film;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,7 +19,7 @@ import ru.yandex.practicum.filmorate.annotaion.MinimumDuration;
 @Data
 public class Film {
 
-  private int id;
+  private long id;
 
   @NotBlank
   private String name;
@@ -35,6 +35,10 @@ public class Film {
   private Duration duration;
 
   private Set<Integer> likes = new HashSet<>();
+
+  private Mpa mpa;
+
+  private Set<Genre> genres = new HashSet<>();
 
   @JsonProperty("duration")
   public long getDurationSeconds() {

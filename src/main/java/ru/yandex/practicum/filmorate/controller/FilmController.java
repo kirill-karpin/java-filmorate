@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 @RestController
@@ -27,17 +27,24 @@ public class FilmController {
     this.filmService = filmService;
   }
 
+  @GetMapping("/{id}")
+  public Film readFilm(@Valid @PathVariable int id) {
+    log.info("Get film: " + id);
+    var result = filmService.read(id);
+    return result.get();
+  }
+
   @PostMapping()
   public Film createFilm(@Valid @RequestBody Film film) {
     log.info("Create film: " + film);
-    int id = filmService.create(film);
-    return filmService.read(id);
+    long id = filmService.create(film);
+    return filmService.read(id).get();
   }
 
   @PutMapping()
   public Film updateFilm(@Valid @RequestBody Film film) {
     log.info("Update film: " + film);
-    return filmService.update(film);
+    return filmService.update(film).get();
   }
 
   @GetMapping()
