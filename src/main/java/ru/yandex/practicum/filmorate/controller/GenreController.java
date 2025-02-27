@@ -28,11 +28,11 @@ public class GenreController {
   }
 
   @GetMapping("/{id}")
-  public Optional<Genre> getGenresById(@PathVariable long id) {
+  public Genre getGenresById(@PathVariable long id) {
     Optional<Genre> genre = filmService.getGenreById(id);
     if (genre.isEmpty()) {
       throw new NotFoundException("Genre not found");
     }
-    return genre;
+    return genre.get();
   }
 }

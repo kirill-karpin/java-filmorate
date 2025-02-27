@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import jakarta.validation.Valid;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -38,23 +39,20 @@ public class FilmService {
 
 
   public long create(@Valid Film film) {
-    long id = filmRepository.create(film);
 
     Mpa mpa = film.getMpa();
-    if (mpaRepository.findById(mpa.getId()).isPresent()) {
-      mpaRepository.addFilmMpa(id, mpa.getId());
-    } else {
+    if (mpaRepository.findById(mpa.getId()).isEmpty()) {
       throw new NotFoundException("Mpa not found");
     }
+    List<Long> genresId = film.getGenres().stream().map(Genre::getId).toList();
+    List<Genre> genresUpdate = genreRepository.listGenresByIds(genresId);
 
-    List<Genre> genres = film.getGenres();
-    genres.forEach(genre -> {
-      if (genreRepository.findById(genre.getId()).isPresent()) {
-        genreRepository.addFilmGenre(id, genre.getId());
-      } else {
-        throw new NotFoundException("Genre not found");
-      }
-    });
+    if (genresUpdate.size() != film.getGenres().size()) {
+      throw new NotFoundException("Genre not found");
+    }
+    long id = filmRepository.create(film);
+
+    genreRepository.batchUpdateFilmGenres(id, film.getGenres().stream().toList());
 
     return id;
   }
@@ -65,11 +63,9 @@ public class FilmService {
     if (film.isEmpty()) {
       throw new NotFoundException("Film not found");
     }
-    if (film.get().getMpaId() != null) {
-      film.get().setMpa(mpaRepository.findById(film.get().getMpaId()).get());
-    }
+    List<Genre> genres = genreRepository.findGenresByFilmId(film.get().getId());
 
-    film.get().setGenres(genreRepository.findGenresByFilmId(film.get().getId()));
+    film.get().setGenres(new HashSet<>(genres));
 
     return film;
   }
@@ -133,11 +129,11 @@ public class FilmService {
   }
 
   public Optional<Mpa> getMpaById(long id) {
-     Optional<Mpa> result =  mpaRepository.findById(id);
-     if (result.isEmpty()) {
-       throw new NotFoundException("Mpa not found");
-     }
-     return result;
+    Optional<Mpa> result = mpaRepository.findById(id);
+    if (result.isEmpty()) {
+      throw new NotFoundException("Mpa not found");
+    }
+    return result;
 
   }
 }

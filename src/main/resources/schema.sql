@@ -5,6 +5,7 @@ create table if not exists films
     description  text,
     release_date date,
     duration     int,
+    mpa          long,
     constraint films_pk
         primary key (id)
 );
@@ -30,9 +31,9 @@ create table if not exists film_likes
 
 create table if not exists friends
 (
-    id        long not null auto_increment,
-    user_id   long not null,
-    friend_id long not null,
+    id        long    not null auto_increment,
+    user_id   long    not null,
+    friend_id long    not null,
     confirmed boolean not null default false
 );
 
@@ -47,13 +48,6 @@ create table if not exists mpa
 
 
 
-create table if not exists film_mpa
-(
-    id      long not null auto_increment,
-    film_id long not null,
-    mpa_id  long not null
-);
-
 create table if not exists genres
 (
     id   long auto_increment,
@@ -65,8 +59,9 @@ create table if not exists genres
 
 create table if not exists film_genre
 (
-    id       long not null auto_increment,
     film_id  long not null,
-    genre_id long not null
+    genre_id long not null,
+    constraint film_genre_pk
+        primary key (film_id, genre_id)
 );
 

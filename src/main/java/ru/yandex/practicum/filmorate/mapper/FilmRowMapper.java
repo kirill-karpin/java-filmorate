@@ -6,6 +6,7 @@ import java.time.Duration;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.model.film.Mpa;
 
 @Component
 public class FilmRowMapper implements RowMapper<Film> {
@@ -18,7 +19,10 @@ public class FilmRowMapper implements RowMapper<Film> {
     film.setReleaseDate(resultSet.getDate("release_date").toLocalDate());
     film.setDescription(resultSet.getString("description"));
     film.setDuration(Duration.ZERO.plusSeconds(resultSet.getInt("duration")));
-    film.setMpaId(resultSet.getLong("mpa_id"));
+    Mpa mpa = new Mpa();
+    mpa.setId(resultSet.getLong("mpa.id"));
+    mpa.setName(resultSet.getString("mpa.name"));
+    film.setMpa(mpa);
 
     return film;
   }

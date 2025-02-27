@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
 import java.util.Collection;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,23 +28,23 @@ public class FilmController {
   }
 
   @GetMapping("/{id}")
-  public Optional<Film> readFilm(@Valid @PathVariable int id) {
+  public Film readFilm(@Valid @PathVariable int id) {
     log.info("Get film: " + id);
     var result = filmService.read(id);
-    return result;
+    return result.get();
   }
 
   @PostMapping()
-  public Optional<Film> createFilm(@Valid @RequestBody Film film) {
+  public Film createFilm(@Valid @RequestBody Film film) {
     log.info("Create film: " + film);
     long id = filmService.create(film);
-    return filmService.read(id);
+    return filmService.read(id).get();
   }
 
   @PutMapping()
-  public Optional<Film> updateFilm(@Valid @RequestBody Film film) {
+  public Film updateFilm(@Valid @RequestBody Film film) {
     log.info("Update film: " + film);
-    return filmService.update(film);
+    return filmService.update(film).get();
   }
 
   @GetMapping()

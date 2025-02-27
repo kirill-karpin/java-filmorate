@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.controller;
 import jakarta.validation.Valid;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,15 +27,15 @@ public class UserController {
   }
 
   @PostMapping()
-  public Optional<User> createUser(@Valid @RequestBody User user) {
+  public User createUser(@Valid @RequestBody User user) {
     log.info("Create user: " + user);
-    return userService.read(userService.create(user));
+    return userService.read(userService.create(user)).get();
   }
 
   @PutMapping()
-  public Optional<User> updateUser(@Valid @RequestBody User user) {
+  public User updateUser(@Valid @RequestBody User user) {
     log.info("Update user: " + user);
-    return userService.update(user);
+    return userService.update(user).get();
   }
 
   @GetMapping("")

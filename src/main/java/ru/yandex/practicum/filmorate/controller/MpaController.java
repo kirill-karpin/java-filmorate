@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,7 @@ public class MpaController {
   }
 
   @GetMapping("/{id}")
-  public Optional<Mpa> getGenresById(@PathVariable long id) {
-    return filmService.getMpaById(id);
+  public Mpa getGenresById(@PathVariable long id) {
+    return filmService.getMpaById(id).get();
   }
 }
